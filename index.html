@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en" style="--bg: #4b0f6b; --accent: #2563eb; --accent-2: #2563eb;"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Headache Solutions &amp; Chiropractic Care in Amsterdam</title>
+  <style>
+    :root {
+      --bg: #0f2f6b;
+      --panel: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #e2e8f0;
+      --accent: #2563eb;
+      --accent-2: #2563eb;
+      --ok: #166534;
+      --ok-bg: #dcfce7;
+      --bad: #991b1b;
+      --bad-bg: #fee2e2;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #0a2352 0%, #0f2f6b 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .wrap { width: min(900px, calc(100% - 28px)); margin: 28px auto 0; padding-bottom: 80px; }
+    .hero { background: var(--panel); border: 1px solid #dbe7ff; border-radius: 24px; padding: 28px; box-shadow: 0 10px 30px rgba(0,0,0,.18); }
+    .eyebrow { font-size: .85rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+    .squeeze-page { display: block; }
+    .squeeze-card {
+      max-width: 760px;
+      margin: 150px auto 28px;
+      background: var(--panel);
+      border: 1px solid #dbe7ff;
+      border-radius: 24px;
+      padding: 34px 28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.16);
+      text-align: center;
+    }
+    .squeeze-card h1,
+    .squeeze-card h2,
+    .squeeze-card p,
+    .squeeze-card div {
+      text-align: center;
+    }
+    .squeeze-card h2 {
+      font-size: clamp(1.2rem, 2.6vw, 1.55rem);
+      line-height: 1.45;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 0;
+    }
+    .squeeze-embed-box {
+      margin-top: 24px;
+      min-height: 160px;
+      border: 2px dashed #bfdbfe;
+      border-radius: 18px;
+      background: #f8fbff;
+      padding: 18px;
+      text-align: center;
+      font: 500 15px/1.7 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      color: #64748b;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+    .squeeze-embed-box.is-empty::before {
+      content: attr(data-placeholder);
+      display: block;
+      color: #64748b;
+      white-space: pre-wrap;
+    }
+    .intro-page { display: block; margin-top: 18px; }
+    .intro-card { background: var(--panel); border: 1px solid #dbe7ff; border-radius: 24px; padding: 28px; box-shadow: 0 10px 30px rgba(0,0,0,.16); transition: transform .2s ease; }
+    .intro-card:hover { transform: translateY(-2px); }
+    .hero + .intro-card { margin-top: 40px; }
+    .intro-message { font-size:17px; line-height:1.7; max-width:680px; margin:0 auto; text-align:center; }
+    .intro-divider { width:60px; height:2px; background:rgba(0,0,0,.08); margin:12px auto 18px; border-radius:2px; }
+    .course-time { display:flex; align-items:center; justify-content:center; gap:6px; margin:20px 0 10px; color:#111827; }
+    .course-time-icon { font-size:18px; opacity:.8; }
+    .course-time-value { font-weight:600; font-size:14px; line-height:1; color:inherit; }
+    .course-time-label { font-weight:600; font-size:14px; opacity:.7; }
+    .intro-start-wrap { text-align:center; margin-top:22px; }
+    .hero .muted { opacity:.82; }
+    .nav-btn.primary { transition: all .2s ease; }
+    .nav-btn.primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0,0,0,.15); }
+    h1, h2, h3, h4 { margin: 0 0 10px; line-height: 1.2; }
+    h1 { font-size: clamp(2rem, 4vw, 2.8rem); }
+    p, li { line-height: 1.6; }
+    .muted { color: var(--muted); }
+    .progress-wrap { margin-top: 16px; position: static; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); border: 1px solid #dbe7ff; border-radius: 18px; padding: 14px; box-shadow: 0 10px 24px rgba(0,0,0,.12); }
+    .progress-bar { width: 100%; height: 12px; background: #dbeafe; border-radius: 999px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), #38bdf8); transition: width .25s ease; }
+    .progress-text { margin-top: 8px; font-size: .92rem; color: var(--muted); font-weight: 600; }
+    .lesson { display: none; margin-top: 18px; background: var(--panel); border: 1px solid #dbe7ff; border-radius: 24px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,.16); min-height: 420px; }
+    .lesson.active { display: block; }
+    .step { display: inline-block; padding: 6px 10px; border-radius: 999px; background: #dbeafe; color: #1d4ed8; font-weight: 700; font-size: .85rem; margin-bottom: 10px; }
+    .lesson-counter { float:right; color: var(--muted); font-size: .9rem; font-weight: 700; }
+    .summary { color: var(--muted); }
+    .module-image-wrap { margin-top: 18px; text-align: center; }
+    .module-image { width: 100%; max-width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 18px; display: block; margin: 0 auto; border: 1px solid var(--border); }
+    .box, .quiz { margin-top: 16px; border: 1px solid var(--border); border-radius: 18px; padding: 18px; background: #fff; }
+    .quiz .options { display: grid; gap: 10px; margin-top: 12px; }
+    .option-btn, .nav-btn, .cta-btn {
+      appearance: none; border: 0; border-radius: 12px; padding: 12px 16px; font: inherit; font-weight: 700; cursor: pointer; transition: transform .15s ease, opacity .15s ease, box-shadow .15s ease;
+    }
+    .option-btn { background: #eff6ff; color: #1e3a8a; text-align: left; border: 1px solid #bfdbfe; }
+    .nav-row { display: flex; justify-content: space-between; gap: 12px; margin-top: 22px; }
+    .nav-btn { background: transparent; color: #0f172a; border: 2px solid #0f2f6b; }
+    .nav-btn.primary, .cta-btn { background: linear-gradient(180deg, var(--accent), var(--accent-2)); color: white; border: 0; box-shadow: 0 10px 20px rgba(37,99,235,.22); }
+    .nav-btn:hover, .cta-btn:hover, .option-btn:hover { transform: translateY(-1px); }
+    .nav-btn:disabled { opacity: .5; cursor: not-allowed; }
+    .feedback { margin-top: 12px; border-radius: 12px; padding: 10px 12px; background: #f8fafc; border: 1px solid var(--border); }
+    .feedback.good { background: var(--ok-bg); color: var(--ok); border-color: #86efac; }
+    .feedback.bad { background: var(--bad-bg); color: var(--bad); border-color: #fca5a5; }
+    .complete { display: none; margin-top: 18px; background: var(--panel); border: 1px solid #dbe7ff; border-radius: 24px; padding: 28px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,.16); }
+    .small { font-size: .92rem; }
+    @media (max-width: 640px) {
+      .nav-row { flex-direction: column; }
+      .nav-btn { width: 100%; }
+    }
+  
+.cta-button a, .cta-button button { text-decoration:none !important; }
+</style>
+
+</head>
+<body data-course-file="index.html" data-has-squeeze="0" spellcheck="true" data-new-gr-c-s-loaded="14.1138.0" style="background: linear-gradient(rgb(10, 35, 82) 0%, rgb(75, 15, 107) 100%);" data-new-gr-c-s-check-loaded="14.1138.0" data-gr-ext-installed="">
+  <div class="wrap">
+    
+
+    <section class="intro-page" id="introPage" style="display: none;">
+      <section class="hero">
+        <div class="eyebrow">Interactive mini-course</div>
+        <h1>Headache Solutions &amp; Chiropractic Care in Amsterdam</h1>
+        <p class="muted">A Practical Guide to Understanding and Managing Headaches with Help from Chiropractic Care</p>
+      </section>
+
+      <section class="intro-card" id="introCard">
+        <div class="intro-divider"></div>
+        <p class="intro-message">Welcome! In this course, you'll build a clear understanding of Headache Solutions &amp; Chiropractic Care in Amsterdam, and by the end you'll be in a strong position to apply what you learn with confidence.</p>
+        <div class="course-time">
+          <span class="course-time-icon">◷</span>
+          <span class="course-time-value">8 minutes</span>
+        </div>
+        <div class="intro-start-wrap">
+          <button class="nav-btn primary" onclick="beginCourse()">Let's Get Started - Click Here To Begin</button>
+        </div>
+      </section>
+    </section>
+
+    
+    <div class="progress-wrap" id="progressWrap" style="display: block;">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="background: rgb(37, 99, 235); width: 100%;"></div></div>
+      <div class="progress-text" id="progressText">Complete</div>
+    </div>
+
+    
+        <section class="lesson" data-index="0">
+          <div class="lesson-top">
+            <span class="step">Module 1</span>
+            <span class="lesson-counter">1 / 5</span>
+            <h2>Understanding Headaches: Types and Triggers</h2>
+            <p class="summary">Learn to identify the different types of headaches and uncover the most common triggers.</p>
+          </div>
+
+          
+          <div class="module-image-wrap">
+            <img class="module-image" src="images/understanding-headaches-types-and-triggers.webp" data-export-src="images/understanding-headaches-types-and-triggers.webp" alt="Understanding Headaches: Types and Triggers" data-editor-resizable="1">
+          </div>
+
+          <div class="box">
+            <h3>What you'll learn</h3>
+            <ul><li>Learn the three main categories of headaches: tension, migraine, and cluster.</li><li>Explore key headache triggers such as stress, posture, and environment.</li><li>Understand why accurate identification matters for choosing solutions.</li></ul>
+          </div>
+
+          <div class="box">
+            <h3>Module 1</h3>
+            <p>To effectively manage headaches, it’s important to recognize that not all headaches are the same. The three most common categories are tension headaches, migraines, and cluster headaches. Tension headaches often feel like a tight band around the head, typically caused by stress or muscle tension. Migraines are usually more intense, often accompanied by sensitivity to light and sound, and sometimes nausea. Cluster headaches are less common but very severe, occurring in cycles or clusters over weeks.</p><p>Triggers vary widely from person to person, but in Amsterdam, common culprits include stress from busy work schedules, poor posture from long hours at computers or bikes, dehydration, and even inconsistent sleep patterns. For instance, many office workers develop tension headaches from sitting in the same position at their desks for hours. A typical mistake is treating all headaches the same way—using painkillers without addressing the triggers, which provides only temporary relief.</p><p>To get the best results, start by noting when, where, and how your headaches occur. Keep a simple diary to record possible triggers and patterns. Understanding your specific headache type and triggers is the first step towards lasting relief.</p>
+          </div>
+
+          
+          <div class="quiz">
+            <h4>Quick Check</h4>
+            <p>Which of these is a common mistake people make when dealing with headaches?</p>
+            <div class="options">
+              
+                <button class="option-btn" data-correct="1" onclick="checkAnswer(this)">Treating every headache the same way</button>
+              
+                <button class="option-btn" data-correct="0" onclick="checkAnswer(this)">Identifying headache triggers</button>
+              
+                <button class="option-btn" data-correct="0" onclick="checkAnswer(this)">Keeping a headache diary</button>
+              
+                <button class="option-btn" data-correct="0" onclick="checkAnswer(this)">Adapting posture to reduce headaches</button>
+              
+            </div>
+            <div class="feedback small">Choose an answer.</div>
+          </div>
+
+          
+          <div class="box recap">
+            <h3>Recap</h3>
+            <ul><li>Headaches come in several types, mainly tension, migraine, and cluster.</li><li>Identifying triggers is crucial for targeted treatment.</li><li>Keeping a headache diary helps you recognize patterns and causes.</li></ul>
+          </div>
+
+          <div class="nav-row">
+            <button class="nav-btn" onclick="prevLesson()" disabled="">Previous</button>
+            <button class="nav-btn primary" onclick="nextLesson()">Next Module</button>
+          </div>
+        </section>
+        <section class="lesson" data-index="1">
+          <div class="lesson-top">
+            <span class="step">Module 2</span>
+            <span class="lesson-counter">2 / 5</span>
+            <h2>How Lifestyle in Amsterdam Impacts Headaches</h2>
+            <p class="summary">Discover how your daily habits and surroundings influence headache frequency and severity.</p>
+          </div>
+
+          
+          <div class="module-image-wrap">
+            <img class="module-image" src="images/how-lifestyle-in-amsterdam-impacts-headaches.webp" data-export-src="images/how-lifestyle-in-amsterdam-impacts-headaches.webp" alt="How Lifestyle in Amsterdam Impacts Headaches" data-editor-resizable="1">
+          </div>
+
+          <div class="box">
+            <h3>What you'll learn</h3>
+            <ul><li>Understand the role of screen time, cycling posture, and urban pace.</li><li>See how nutrition and hydration choices make a difference.</li><li>Learn practical adjustments tailored to Amsterdam’s lifestyle.</li></ul>
+          </div>
+
+          <div class="box">
+            <h3>Module 2</h3>
+            <p>Living and working in Amsterdam offers an active, vibrant lifestyle, but it also introduces unique headache triggers. Many people spend hours at computers or on their phones, which can strain neck and shoulder muscles, leading to tension headaches. Cycling, while healthy, can also affect posture—especially if your bike isn’t fitted properly, causing misalignment and strain.</p><p>Urban factors like air quality, noise, and a fast-paced schedule may contribute to stress-induced headaches. Additionally, cafe culture makes it easy to miss meals or delay hydration, both of which are well-known migraine triggers. For example, skipping breakfast before an early meeting or not drinking enough water during a busy biking day may increase headache risk.</p><p>A common misconception is that daily routines in Amsterdam are automatically healthy because of cycling and walking. In reality, improper posture and skipped self-care can silently add up. Start by examining your posture at work and while cycling; make sure your workstation and bike are ergonomically set up. Keep a reusable water bottle at hand, and don’t delay meals. Small adjustments to these routines can meaningfully reduce headache frequency.</p>
+          </div>
+
+          
+          <div class="quiz">
+            <h4>Quick Check</h4>
+            <p>Which adjustment would most likely help someone in Amsterdam reduce headache frequency?</p>
+            <div class="options">
+              
+                <button class="option-btn" data-correct="1" onclick="checkAnswer(this)">Making their bike and desk ergonomically friendly</button>
+              
+                <button class="option-btn" data-correct="0" onclick="checkAnswer(this)">Skipping meals to save time</button>
+              
+                <button class="option-btn" data-correct="0" onclick="checkAnswer(this)">Ignoring posture while cycling</button>
+              
+                <button class="option-btn" data-correct="0" onclick="checkAnswer(this)">Drinking less water during the day</button>
+              
+            </div>
+            <div class="feedback small">Choose an answer.</div>
+          </div>
+
+          
+          <div class="box recap">
+            <h3>Recap</h3>
+            <ul><li>Everyday habits in Amsterdam, like screen time and cycling, affect headache risk.</li><li>Poor posture and dehydration are common, often overlooked triggers.</li><li>Improving ergonomic setups and regular self-care can help prevent headaches.</li></ul>
+          </div>
+
+          <div class="nav-row">
+            <button class="nav-btn" onclick="prevLesson()">Previous</button>
+            <button class="nav-btn primary" onclick="nextLesson()">Next Module</button>
+          </div>
+        </section>
+        <section class="lesson" data-index="2">
+          <div class="lesson-top">
+            <span class="step">Module 3</span>
+            <span class="lesson-counter">3 / 5</span>
+            <h2>Chiropractic Care: A Natural Solution for Headaches</h2>
+            <p class="summary">Gain clarity on how chiropractic care offers effective, natural headache relief.</p>
+          </div>
+
+          
+          <div class="module-image-wrap">
+            <img class="module-image" src="images/chiropractic-care-a-natural-solution-for-headaches.webp" data-export-src="images/chiropractic-care-a-natural-solution-for-headaches.webp" alt="Chiropractic Care: A Natural Solution for Headaches" data-editor-resizable="1">
+          </div>
+
+          <div class="box">
+            <h3>What you'll learn</h3>
+            <ul><li>Explore how spinal alignment affects nerve and muscle tension.</li><li>See evidence-based benefits of chiropractic care for headaches.</li><li>Learn what an initial chiropractic visit involves.</li></ul>
+          </div>
+
+          <div class="box">
+            <h3>Module 3</h3>
+            <p>Chiropractic care focuses on ensuring proper alignment of the spine and nervous system, which plays a crucial role in headache prevention and relief. Research shows that spinal misalignments can irritate nerves and tighten muscles in the neck and shoulders—common sources of tension and migraine headaches.</p><p>A practical example: Many Amsterdam professionals with regular headaches find substantial relief after targeted chiropractic adjustments, which release muscle tension, reduce nerve irritation and improve posture. If you spend long hours sitting at a desk or cycling with your head forward, those postural strains can accumulate over time. Chiropractic adjustments restore function, reduce pressure on the nervous system, and encourage natural healing.</p><p>One misunderstanding is that chiropractic care only helps with back pain. In reality, chiropractors are trained to address a variety of musculoskeletal and nerve-related conditions, including headaches.</p><p>If you’re struggling with recurring headaches—even after lifestyle changes—consulting a chiropractor can help identify underlying structural and nerve issues. An initial visit usually includes a thorough assessment, discussion of habits, and a personalized plan for adjustments. This approach aims to provide not just symptom relief, but also long-term improvement.</p>
+          </div>
+
+          
+          <div class="quiz">
+            <h4>Quick Check</h4>
+            <p>What is a common misconception about chiropractic care?</p>
+            <div class="options">
+              
+                <button class="option-btn" data-correct="1" onclick="checkAnswer(this)">It only helps with back pain</button>
+              
+                <button class="option-btn" data-correct="0" onclick="checkAnswer(this)">It can address headaches caused by muscle tension</button>
+              
+                <button class="option-btn" data-correct="0" onclick="checkAnswer(this)">It involves posture assessment</button>
+              
+                <button class="option-btn" data-correct="0" onclick="checkAnswer(this)">It seeks root causes of symptoms</button>
+              
+            </div>
+            <div class="feedback small">Choose an answer.</div>
+          </div>
+
+          
+          <div class="box recap">
+            <h3>Recap</h3>
+            <ul><li>Chiropractic care corrects spinal issues that often cause headaches.</li><li>Adjustments can relieve nerve pressure and muscle tension.</li><li>An initial chiropractic visit focuses on assessment and creating an individualized plan.</li></ul>
+          </div>
+
+          <div class="nav-row">
+            <button class="nav-btn" onclick="prevLesson()">Previous</button>
+            <button class="nav-btn primary" onclick="nextLesson()">Next Module</button>
+          </div>
+        </section>
+        <section class="lesson" data-index="3">
+          <div class="lesson-top">
+            <span class="step">Module 4</span>
+            <span class="lesson-counter">4 / 5</span>
+            <h2>Putting It All Together: Creating Your Personalized Headache Plan</h2>
+            <p class="summary">Learn how to combine self-care, lifestyle changes, and chiropractic approaches for ongoing headache management.</p>
+          </div>
+
+          
+          <div class="module-image-wrap">
+            <img class="module-image" src="images/putting-it-all-together-creating-your-personalized-headache-plan.webp" data-export-src="images/putting-it-all-together-creating-your-personalized-headache-plan.webp" alt="Putting It All Together: Creating Your Personalized Headache Plan" data-editor-resizable="1">
+          </div>
+
+          <div class="box">
+            <h3>What you'll learn</h3>
+            <ul><li>Map your headache patterns and triggers using your diary.</li><li>Introduce practical daily changes for prevention.</li><li>Set realistic goals for incorporating chiropractic care.</li></ul>
+          </div>
+
+          <div class="box">
+            <h3>Module 4</h3>
+            <p>Now that you understand your personal headache patterns, lifestyle influences, and the benefits of chiropractic care, it’s time to build your individualized plan. Start by reviewing your headache diary: note the times, environmental triggers, habits, and severity of each headache you’ve tracked over a week or two.</p><p>Next, prioritize changes that match your lifestyle in Amsterdam. If posture at your desk or on your bike is a trigger, schedule regular stretch breaks, and consider an ergonomic assessment or adjustments to your bike setup. Keep water within easy reach, and prep healthy snacks to avoid skipping meals. Integrating even small changes helps reduce both the frequency and intensity of headaches.</p><p>A mistake people often make is trying too many changes at once or giving up before seeing results. Lasting improvement requires consistency—track your progress, adapt strategies that work best for you, and give yourself time.</p><p>Finally, if headaches persist despite your efforts, schedule a visit with One Chiropractic Studio in Amsterdam.&nbsp; Combining self-care with professional assessment often leads to the best results. You’ll get a tailored approach and expert support for ongoing relief.</p>
+          </div>
+
+          
+          <div class="quiz">
+            <h4>Quick Check</h4>
+            <p>What is a key step when creating your personalized headache management plan?</p>
+            <div class="options">
+              
+                <button class="option-btn" data-correct="1" onclick="checkAnswer(this)">Tracking patterns and triggers over time</button>
+              
+                <button class="option-btn" data-correct="0" onclick="checkAnswer(this)">Making as many lifestyle changes as possible at once</button>
+              
+                <button class="option-btn" data-correct="0" onclick="checkAnswer(this)">Ignoring professional guidance</button>
+              
+                <button class="option-btn" data-correct="0" onclick="checkAnswer(this)">Focusing only on symptoms, not root causes</button>
+              
+            </div>
+            <div class="feedback small">Choose an answer.</div>
+          </div>
+
+          
+          <div class="box recap">
+            <h3>Recap</h3>
+            <ul><li>Use your diary to pinpoint effective changes for your situation.</li><li>Combine practical daily adjustments with Chiropractic care.</li><li>Lasting relief comes from consistency and individualized planning.</li></ul>
+          </div>
+
+          <div class="nav-row">
+            <button class="nav-btn" onclick="prevLesson()">Previous</button>
+            <button class="nav-btn primary" onclick="nextLesson()">Next Module</button>
+          </div>
+        </section>
+        <section class="lesson" data-index="4">
+          <div class="lesson-top">
+            <span class="step">Module 5</span>
+            <span class="lesson-counter">5 / 5</span>
+            <h2>Taking Action: Your Next Steps to Headache Relief in Amsterdam</h2>
+            <p class="summary">Get clear guidance on how to take control and access expert help for headache relief today.</p><p class="summary"><div style="margin: 18px auto; text-align: center;"><img src="images/taking-action-your-next-steps-to-headache-relief-in-amsterdam.webp" alt="Taking Action: Your Next Steps to Headache Relief in Amsterdam" data-export-src="images/taking-action-your-next-steps-to-headache-relief-in-amsterdam.webp" data-editor-resizable="1" style="max-width: 100%; height: auto; border-radius: 12px; display: inline-block;"></div><br></p>
+          </div>
+
+          
+          <div class="module-image-wrap">
+            
+          </div>
+
+          <div class="box">
+            <h3>What you'll learn</h3>
+            <ul><li>Recognize when it’s time to seek professional help.</li><li>Know what to expect from your first chiropractic appointment.</li><li>Feel confident taking the next step toward relief.</li></ul>
+          </div>
+
+          <div class="box">
+            <h3>Module 5</h3>
+            <p>You’ve now built a strong foundation for understanding and managing your headaches. If your headaches are frequent, disabling, or not improving with self-care, this is the sign to seek extra support. Professional guidance can help you break the cycle and prevent headaches from impacting your quality of life.</p><p>Booking an appointment with a chiropractor, like those at One Chiropractic Studio in Amsterdam, is a straightforward step. At your first session, you’ll receive a thorough health assessment, a discussion of your history and lifestyle, and an examination including posture pictures and spinal and nervous system scans. This ensures your care plan is tailored specifically to your needs and goals—no guesswork, just evidence-based guidance.</p><p>A common misconception is waiting too long, hoping headaches will resolve on their own. Early action often means faster relief and less disruption to your work and personal life.</p><p>Take the next step: Book your appointment with a chiropractic expert in Amsterdam. With personalized care, you can look forward to fewer headaches and more energy for what matters most to you.</p>
+          </div>
+
+          
+          <div class="quiz">
+            <h4>Quick Check</h4>
+            <p>What is the best reason to book a chiropractic appointment for headaches?</p>
+            <div class="options">
+              
+                <button class="option-btn" data-correct="1" onclick="checkAnswer(this)">Headaches that persist despite self-care efforts</button>
+              
+                <button class="option-btn" data-correct="0" onclick="checkAnswer(this)">Waiting to see if headaches go away on their own</button>
+              
+                <button class="option-btn" data-correct="0" onclick="checkAnswer(this)">Self-medicating without guidance</button>
+              
+                <button class="option-btn" data-correct="0" onclick="checkAnswer(this)">Ignoring headache patterns</button>
+              
+            </div>
+            <div class="feedback small">Choose an answer.</div>
+          </div>
+
+          
+          <div class="box recap">
+            <h3>Recap</h3>
+            <ul><li>Prompt action is vital when headaches disrupt your life.</li><li>Chiropractic consultations start with a thorough, personalized assessment.</li><li>Expert care leads to lasting relief and better overall wellbeing.</li></ul>
+          </div>
+
+          <div class="nav-row">
+            <button class="nav-btn" onclick="prevLesson()">Previous</button>
+            <button class="nav-btn primary" onclick="nextLesson()">Now Click Here To Complete This Course</button>
+          </div>
+        </section>
+
+    <section class="complete" id="completeCard" style="display: block;">
+      <h2>Course Complete</h2>
+      <p>Congratulations! You're now well-equipped with practical strategies to manage your headaches and understand how chiropractic care in Amsterdam can help. Ready for relief? Book your appointment today with One Chiropractic Studio.</p>
+      <p class="muted small">Use the button below to take the next step, or start over and run through the course again.</p><p class="muted small"><div style="margin: 18px auto; text-align: center;"><div style="margin: 18px auto; text-align: center;"><img src="images/ONEChiroStudio-Amsterdam_2026-39-of-71-.jpg" alt="ONEChiroStudio-Amsterdam_2026 (39 of 71).jpg" data-export-src="images/ONEChiroStudio-Amsterdam_2026-39-of-71-.jpg" data-editor-resizable="1" class="" style="max-width: 100%; height: auto; border-radius: 12px; display: inline-block; width: 60%;"></div></div><br></p>
+      <a class="cta-btn" style="text-decoration:none; margin-top: 18px; display:inline-block;" href="https://www.onechiropracticstudio.com/chiropractor-amsterdam/" target="_blank" rel="noopener noreferrer">Make your appointment</a>
+      <div class="nav-row" style="justify-content:center; margin-top: 18px;">
+        <button class="nav-btn" onclick="restartCourse()">Start Over</button>
+      </div>
+      
+      <hr style="margin: 24px 0; border:0; border-top:1px solid #d1d5db;">
+      <p class="muted small" style="text-align:center; margin-bottom: 12px;">Download the information in this course to keep and refer back to</p>
+      <div style="text-align:center;">
+        <a class="cta-btn pdf-download-btn" style="text-decoration:none; display:inline-block;" href="course.pdf" target="_blank" rel="noopener noreferrer">Download a PDF of This Course Here</a>
+      </div>
+    </section>
+  </div>
+
+  <script id="courseRuntimeScript">
+    let currentLesson = 0;
+    const lessons = [...document.querySelectorAll('.lesson')];
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const progressWrap = document.getElementById('progressWrap');
+    const completeCard = document.getElementById('completeCard');
+    const introPage = document.getElementById('introPage');
+    const squeezePage = document.getElementById('squeezePage');
+
+    function beginCourse() {
+      if (introPage) introPage.style.display = 'none';
+      if (squeezePage) squeezePage.style.display = 'none';
+      if (progressWrap) progressWrap.style.display = 'block';
+      completeCard.style.display = 'none';
+      renderLesson();
+    }
+
+    function renderLesson() {
+      lessons.forEach((lesson, index) => lesson.classList.toggle('active', index === currentLesson));
+      if (progressFill && progressText) {
+        const pct = ((currentLesson + 1) / lessons.length) * 100;
+        progressFill.style.width = pct + '%';
+        progressText.textContent = 'Module ' + (currentLesson + 1) + ' of ' + lessons.length;
+      }
+      completeCard.style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function nextLesson() {
+      if (currentLesson < lessons.length - 1) {
+        currentLesson += 1;
+        renderLesson();
+      } else {
+        lessons.forEach(l => l.classList.remove('active'));
+        if (progressFill && progressText) {
+          progressFill.style.width = '100%';
+          progressText.textContent = 'Complete';
+        }
+        completeCard.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function prevLesson() {
+      if (currentLesson > 0) {
+        currentLesson -= 1;
+        renderLesson();
+      }
+    }
+
+    function resetQuiz(btn) {
+      const wrap = btn.closest('.quiz');
+      const feedback = wrap.querySelector('.feedback');
+      wrap.querySelectorAll('.option-btn').forEach(b => b.disabled = false);
+      feedback.textContent = 'Choose an answer.';
+      feedback.className = 'feedback small';
+      const retryBtn = wrap.querySelector('.retry-btn');
+      if (retryBtn) retryBtn.remove();
+    }
+
+    function checkAnswer(btn) {
+      const wrap = btn.closest('.quiz');
+      const feedback = wrap.querySelector('.feedback');
+      wrap.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+      const oldRetry = wrap.querySelector('.retry-btn');
+      if (oldRetry) oldRetry.remove();
+      if (btn.dataset.correct === '1') {
+        feedback.textContent = 'Correct.';
+        feedback.className = 'feedback good';
+      } else {
+        feedback.textContent = 'Not quite. Review the lesson and try again.';
+        feedback.className = 'feedback bad';
+        const retryBtn = document.createElement('button');
+        retryBtn.className = 'nav-btn retry-btn';
+        retryBtn.style.marginTop = '12px';
+        retryBtn.textContent = 'Start quiz again';
+        retryBtn.onclick = function() { resetQuiz(retryBtn); };
+        feedback.insertAdjacentElement('afterend', retryBtn);
+      }
+    }
+
+    function restartCourse() {
+      currentLesson = 0;
+      document.querySelectorAll('.quiz').forEach(wrap => {
+        const feedback = wrap.querySelector('.feedback');
+        wrap.querySelectorAll('.option-btn').forEach(b => b.disabled = false);
+        if (feedback) {
+          feedback.textContent = 'Choose an answer.';
+          feedback.className = 'feedback small';
+        }
+        const retryBtn = wrap.querySelector('.retry-btn');
+        if (retryBtn) retryBtn.remove();
+      });
+      lessons.forEach(l => l.classList.remove('active'));
+      if (introPage) introPage.style.display = 'block';
+      if (squeezePage) squeezePage.style.display = 'block';
+      if (progressWrap) progressWrap.style.display = 'none';
+      completeCard.style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    restartCourse();
+  </script>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
